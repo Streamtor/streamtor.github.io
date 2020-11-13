@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap");
+
+.Home-Wrapper {
+  position: absolute;
+  left: 150px;
+  top: 135px;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: flex-start;
+}
+.home-welcome-text {
+  font-family: "Montserrat", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 28px;
+  text-align: left;
+  color: #ffffff;
+}
+
+.home-welcome-sub-text {
+  font-family: "Montserrat", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  color: #5a5d6f;
+}
+
+.home-search-box {
+  margin-top: 10px;
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: hidden;
+  padding: 8px;
+  background: #3c3f54;
+  border-radius: 10px;
+  width: 325px;
+  height: 30px;
+  font-family: "Montserrat", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #dbd3d3;
+}
+
+.home-search-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.lottie-animation-wrapper {
+  position: absolute;
+  top: 2%;
+  right: 10%;
+}
+
+.home-search-box:focus {
+  outline: none;
+}
+
+.home-search-icon {
+  margin-left: 10px;
+  margin-top: 10px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  padding: 5px;
+  background: #3c3f54;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+}
+.home-search-icon-wrapper {
+  transition: all 1s ease-in-out;
+}
+.home-search-icon-wrapper :hover {
+  transform: scale(1.1);
+}

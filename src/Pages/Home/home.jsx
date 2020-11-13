@@ -38,7 +38,9 @@ export default function Home() {
             />
           </div>
         </div>
-        <span className="home-movies-category-title">Trending</span>
+        <span className="home-movies-category-title animated fadeIn">
+          {selectedGenre}
+        </span>
       </div>
       <div className="home-movies-category-wrapper">
         <div className="home-divider" />

@@ -41,6 +41,7 @@
   font-style: normal;
   font-weight: normal;
   font-size: 15px;
+  text-transform: capitalize;
   color: #dbd3d3;
 }
 
@@ -82,17 +83,44 @@
 
 .home-movies-category-title {
   margin-top: 50px;
+  margin-left: 25px;
   font-family: "Montserrat", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 23px;
   color: #ffffff;
+  -webkit-animation-duration: 2s;
+  animation-duration: 2s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
 }
 
 .home-movies-category-wrapper {
   position: absolute;
   left: 1%;
-  margin-top: 20px;
+  margin-top: -1%;
 }
 
 .home-divider {

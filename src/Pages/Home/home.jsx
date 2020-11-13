@@ -4,6 +4,8 @@ import { Icon, InlineIcon } from "@iconify/react";
 import searchIcon from "@iconify/icons-ei/search";
 import Lottie from "react-lottie";
 import animationData from "../../assets/lotties/33598-hammock.json";
+import Row from "../../Components/Rows/Row.component";
+import requests from "../../Middlewares/requests";
 
 export default function Home() {
   const [selectedGenre, setSelectedGenre] = useState("Trending");
@@ -29,7 +31,7 @@ export default function Home() {
           Welcome Back to the workspace, we missed You!
         </span>
         <div className="home-search-wrapper">
-          <input className="home-search-box" placeholder="Search for a movie" />
+          <input className="home-search-box" placeholder="Search the movie" />
           <div className="home-search-icon-wrapper">
             <Icon
               className="home-search-icon"
@@ -97,6 +99,7 @@ export default function Home() {
           </li>
         </ul>
       </div>
+      <Row fetchUrl={requests.fetchTrending} />
       <div className="lottie-animation-wrapper">
         <Lottie
           options={defaultOptions}

@@ -79,3 +79,57 @@
 .home-search-icon-wrapper :hover {
   transform: scale(1.1);
 }
+
+.home-movies-category-title {
+  margin-top: 50px;
+  font-family: "Montserrat", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 23px;
+  color: #ffffff;
+}
+
+.home-movies-category-wrapper {
+  position: absolute;
+  left: 1%;
+  margin-top: 20px;
+}
+
+.home-divider {
+  width: 125px;
+  height: 1px;
+  background-color: #3e4156;
+  border: 1px solid #3e4156;
+  transform: rotate(0.48deg);
+}
+
+.unstyled-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  margin-top: 15px;
+}
+
+.list-text {
+  font-family: "Montserrat", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  margin: 5px;
+  font-size: 18px;
+  color: #5a5d6f;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.list-text:hover {
+  color: #c9b3df;
+}
+
+.selected-genre {
+  color: white;
+}

@@ -1,16 +1,21 @@
 import React, { useState } from "react";
 import "./home.css";
-import { Icon, InlineIcon } from "@iconify/react";
+import { Icon } from "@iconify/react";
 import searchIcon from "@iconify/icons-ei/search";
 import Lottie from "react-lottie";
 import animationData from "../../assets/lotties/33598-hammock.json";
 import Row from "../../Components/Rows/Row.component";
 import requests from "../../Middlewares/requests";
 import axios from "../../Middlewares/axios";
+import { useDispatch } from "react-redux";
+import { setSearchResults } from "../../redux/actions/searchResultsActions";
+import { useHistory } from "react-router-dom";
 
 export default function Home() {
   const [selectedGenre, setSelectedGenre] = useState("Trending");
   const [queryMovie, setQueryMovie] = useState("");
+  const history = useHistory();
+  const dispatch = useDispatch();
 
   const defaultOptions = {
     loop: true,
@@ -29,6 +34,8 @@ export default function Home() {
     console.log("Query Being searched ! ", queryMovie);
     const request = await axios.get(requests.searchMulti + queryMovie);
     console.log("Search Query Result : ", request.data.results);
+    dispatch(setSearchResults(request.data.results));
+    history.push("/search");
   };
 
   const handlePosterClick = async (data) => {
@@ -36,6 +43,8 @@ export default function Home() {
     console.log("Poster Click ", searchQuery);
     const request = await axios.get(requests.searchMulti + searchQuery);
     console.log("Poster Click Result : ", request.data.results);
+    dispatch(setSearchResults(request.data.results));
+    history.push("/search");
   };
 
   return (

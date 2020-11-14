@@ -8,6 +8,7 @@ import dotsTop from "./assets/DotsTop.png";
 import { Icon, InlineIcon } from "@iconify/react";
 import menuMotion from "@iconify/icons-gg/menu-motion";
 import Home from "./Pages/Home/home";
+import SearchResult from "./Pages/Movies List/SearchResult";
 
 function App() {
   return (
@@ -28,6 +29,9 @@ function App() {
         <Switch>
           <Route path="/" exact>
             <Home />
+          </Route>
+          <Route path="/search">
+            <SearchResult />
           </Route>
         </Switch>
       </HashRouter>

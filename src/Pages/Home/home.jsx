@@ -43,19 +43,36 @@ export default function Home() {
         <span className="home-movies-category-title animated fadeIn">
           {selectedGenre}
         </span>
+        <div>
+          {selectedGenre === "Trending" && (
+            <Row fetchUrl={requests.fetchTrending} />
+          )}
+          {selectedGenre === "Comedy Movies" && (
+            <Row fetchUrl={requests.fetchComedyMovies} />
+          )}
+          {selectedGenre === "Series" && (
+            <Row fetchUrl={requests.fetchNetflixOriginals} />
+          )}
+          {selectedGenre === "Top Rated" && (
+            <Row fetchUrl={requests.fetchTopRated} />
+          )}
+          {selectedGenre === "Horror Movies" && (
+            <Row fetchUrl={requests.fetchHorrorMovies} />
+          )}
+        </div>
       </div>
       <div className="home-movies-category-wrapper">
         <div className="home-divider" />
         <ul className="unstyled-list">
           <li
             className={
-              selectedGenre === "Movies"
+              selectedGenre === "Comedy Movies"
                 ? "list-text selected-genre"
                 : "list-text"
             }
-            onClick={() => handleGenreClick("Movies")}
+            onClick={() => handleGenreClick("Comedy Movies")}
           >
-            Movies
+            Comedy Movies
           </li>
           <li
             className={
@@ -99,7 +116,6 @@ export default function Home() {
           </li>
         </ul>
       </div>
-      <Row fetchUrl={requests.fetchTrending} />
       <div className="lottie-animation-wrapper">
         <Lottie
           options={defaultOptions}

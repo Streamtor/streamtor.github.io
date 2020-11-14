@@ -3,7 +3,7 @@ import "./Row.styles.css";
 import axios from "../../Middlewares/axios";
 
 const baseUrl = "https://image.tmdb.org/t/p/original";
-export default function Row({ fetchUrl }) {
+export default function Row({ fetchUrl, onPosterClick }) {
   const [cardData, setCardData] = useState([]);
 
   useEffect(() => {
@@ -20,6 +20,7 @@ export default function Row({ fetchUrl }) {
       <div className="row_posters">
         {cardData.map((data) => (
           <img
+            onClick={() => onPosterClick(data)}
             key={data.id}
             className={`row_poster row_posterLarge posters`}
             src={`${baseUrl}${data.poster_path}`}

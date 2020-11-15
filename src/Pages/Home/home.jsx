@@ -10,6 +10,7 @@ import axios from "../../Middlewares/axios";
 import { useDispatch } from "react-redux";
 import { setSearchResults } from "../../redux/actions/searchResultsActions";
 import { useHistory } from "react-router-dom";
+import { setSearchQuery } from "../../redux/actions/searchQueryActions";
 
 export default function Home() {
   const [selectedGenre, setSelectedGenre] = useState("Trending");
@@ -34,6 +35,7 @@ export default function Home() {
     console.log("Query Being searched ! ", queryMovie);
     const request = await axios.get(requests.searchMulti + queryMovie);
     console.log("Search Query Result : ", request.data.results);
+    dispatch(setSearchQuery(queryMovie));
     dispatch(setSearchResults(request.data.results));
     history.push("/search");
   };
@@ -43,6 +45,7 @@ export default function Home() {
     console.log("Poster Click ", searchQuery);
     const request = await axios.get(requests.searchMulti + searchQuery);
     console.log("Poster Click Result : ", request.data.results);
+    dispatch(setSearchQuery(searchQuery));
     dispatch(setSearchResults(request.data.results));
     history.push("/search");
   };

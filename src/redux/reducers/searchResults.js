@@ -1,7 +1,7 @@
 const searchResults = (state = [], action) => {
   switch (action.type) {
     case "SET":
-      return action.value;
+      return action.payload;
     case "GET":
       return state;
     default:

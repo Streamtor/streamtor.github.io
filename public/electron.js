@@ -1,8 +1,13 @@
 const { app, BrowserWindow } = require("electron");
 const isDev = require("electron-is-dev");
 const path = require("path");
+const express = require("express");
+const cors = require("cors");
+const TPBAPI = require("thepiratebayapi");
 
 let mainWindow;
+const server = express();
+server.use(cors());
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -14,6 +19,9 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
     },
+  });
+  server.listen(15000, () => {
+    console.log("listening on *:15000");
   });
   const startURL = isDev
     ? "http://localhost:3000"
@@ -27,3 +35,15 @@ function createWindow() {
   });
 }
 app.on("ready", createWindow);
+
+/**
+ * Express Server Code
+ */
+
+server.get("/search/:query", (req, res, next) => {
+  let query = req.params.query;
+  return TPBAPI.search(query, 200, (torrents) => {
+    console.log(torrents);
+    res.status(200).json(torrents);
+  });
+});

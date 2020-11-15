@@ -1,14 +1,14 @@
 import "./App.css";
-import Sample from "./Components/sample";
 import { HashRouter, Switch, Route } from "react-router-dom";
 import dotsCross from "./assets/DotsCross.png";
 import dotsBottom from "./assets/BottomDots.png";
 import dotsRight from "./assets/RightSideDots.png";
 import dotsTop from "./assets/DotsTop.png";
-import { Icon, InlineIcon } from "@iconify/react";
+import { Icon } from "@iconify/react";
 import menuMotion from "@iconify/icons-gg/menu-motion";
 import Home from "./Pages/Home/home";
-import SearchResult from "./Pages/Movies List/SearchResult";
+import SearchResult from "./Pages/MoviesList/SearchResult";
+import TorrentList from "./Pages/TorrentList/TorrentList";
 
 function App() {
   return (
@@ -32,6 +32,9 @@ function App() {
           </Route>
           <Route path="/search">
             <SearchResult />
+          </Route>
+          <Route path="/torrent">
+            <TorrentList />
           </Route>
         </Switch>
       </HashRouter>

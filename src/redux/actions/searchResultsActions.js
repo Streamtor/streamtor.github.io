@@ -1,12 +1,12 @@
 export const setSearchResults = (value) => {
   return {
     type: "SET",
-    value: value,
+    payload: value,
   };
 };
 
 export const getSearchResults = () => {
   return {
-    type: "GET",
+    payload: "GET",
   };
 };

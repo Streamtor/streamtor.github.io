@@ -1,0 +1,96 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap");
+
+.search-page-wrapper {
+  position: relative;
+  margin-top: 9%;
+  margin-left: 5%;
+  display: flex;
+  flex-direction: column;
+}
+
+.back-icon {
+  position: absolute;
+  top: -30px;
+  left: -3%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  background-color: #3c3f54;
+  border-radius: 10px;
+  width: 100px;
+  height: 30px;
+  font-family: "Montserrat", sans-serif;
+}
+
+.back-icon:hover {
+  transform: scale(1.1);
+}
+
+.search-query-title {
+  text-align: justify;
+  font-size: 18px;
+}
+.search-query-title label {
+  text-transform: capitalize;
+  font-size: 23px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(auto, 1fr);
+  grid-gap: 10px;
+  margin-bottom: 25px;
+}
+
+.result-card-wrapper {
+  background-color: #3c3f54;
+  max-width: 85%;
+  min-height: 135px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.result-card-right {
+  min-width: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  text-align: justify;
+}
+
+.result-card-title {
+  font-size: 23px;
+}
+
+.result-card-overview {
+  font-size: 12px;
+  font-family: "Montserrat", sans-serif;
+  line-height: 20px;
+}
+
+.result-card-release-date {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.result-card-image {
+  object-fit: contain;
+  padding: 10px;
+  border-radius: 10px;
+  max-height: 120px;
+  margin-right: 10px;
+}
+
+.result-card-wrapper:hover {
+  transform: scale(1.08);
+  opacity: 1;
+}

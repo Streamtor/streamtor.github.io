@@ -26,8 +26,10 @@
     "react-scripts": "4.0.0",
     "redux": "^4.0.5",
     "thepiratebayapi": "^1.1.1",
+    "video-react": "^0.14.1",
     "wait-on": "^5.2.0",
-    "web-vitals": "^0.2.4"
+    "web-vitals": "^0.2.4",
+    "webtorrent": "^0.112.0"
   },
   "scripts": {
     "start": "react-scripts start",

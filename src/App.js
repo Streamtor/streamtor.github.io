@@ -9,6 +9,7 @@ import menuMotion from "@iconify/icons-gg/menu-motion";
 import Home from "./Pages/Home/home";
 import SearchResult from "./Pages/MoviesList/SearchResult";
 import TorrentList from "./Pages/TorrentList/TorrentList";
+import ShowFileList from "./Pages/ShowFileList/ShowFileList";
 
 function App() {
   return (
@@ -35,6 +36,9 @@ function App() {
           </Route>
           <Route path="/torrent">
             <TorrentList />
+          </Route>
+          <Route path="/file">
+            <ShowFileList />
           </Route>
         </Switch>
       </HashRouter>

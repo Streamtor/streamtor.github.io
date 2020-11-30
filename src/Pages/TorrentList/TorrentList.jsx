@@ -7,6 +7,10 @@ import Icon from "@iconify/react";
 import pathBack from "@iconify/icons-gg/arrow-left";
 import playCircleFilled from "@iconify/icons-ant-design/play-circle-filled";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setSelectedTor } from "../../redux/actions/selectedTorAction";
+import { setSelectedTorDetails } from "../../redux/actions/torFileDetails";
+import Axios from "axios";
 
 function formatBytes(a, b = 2) {
   if (0 === a) return "0 Bytes";
@@ -23,6 +27,7 @@ export default function TorrentList() {
   const history = useHistory();
   const SearchQuery = useSelector((state) => state.searchQuery);
   const torResults = useSelector((state) => state.torResult);
+  const dispatch = useDispatch();
 
   const [isSearching, setIsSearching] = useState(false);
 
@@ -33,6 +38,19 @@ export default function TorrentList() {
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
     },
+  };
+
+  const handleCardClick = (index) => {
+    console.log(torResults[index]);
+    let url = "http://localhost:15000/add/" + torResults[index].info_hash;
+    dispatch(setSelectedTor(torResults[index]));
+    setIsSearching(true);
+    Axios.get(url).then((res) => {
+      console.log(res.data);
+      dispatch(setSelectedTorDetails(res.data));
+      setIsSearching(false);
+      history.push("/file");
+    });
   };
 
   return (
@@ -67,7 +85,11 @@ export default function TorrentList() {
           <br />
           <div className="tor-grid-container tor-grid-container--fit">
             {torResults.map((result, index) => (
-              <div key={index} className="tor-grid-element">
+              <div
+                key={index}
+                className="tor-grid-element"
+                onClick={() => handleCardClick(index)}
+              >
                 <span className="tor-grid-element-title">{result.name}</span>
                 <div className="alignleft">
                   <label className="seeders-leechers-text">Seeders</label>

@@ -1,6 +1,8 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { setStreamURL } from "../../redux/actions/streamVideoURLAction";
 
 import "./ShowFileList.css";
 import Icon from "@iconify/react";
@@ -21,6 +23,17 @@ export default function ShowFileList() {
   const history = useHistory();
   const SearchQuery = useSelector((state) => state.selectedTorFile);
   const fileDetails = useSelector((state) => state.torFileDetails);
+  const dispatch = useDispatch();
+
+  const handleStreamFile = (index) => {
+    let streamURL =
+      "http://localhost:15000/stream/" +
+      SearchQuery.info_hash +
+      "/" +
+      fileDetails[index].name;
+    dispatch(setStreamURL(streamURL));
+    history.push("/play");
+  };
 
   return (
     <div className="search-page-wrapper">
@@ -49,8 +62,11 @@ export default function ShowFileList() {
         </label>
       </span>
       <br />
-      {fileDetails.map((file) => (
-        <div className="file-detail-card">
+      {fileDetails.map((file, index) => (
+        <div
+          className="file-detail-card"
+          onClick={() => handleStreamFile(index)}
+        >
           <label className="file-detail-card-title">{file.name}</label>
           <br />
           <label className="file-detail-card-size">

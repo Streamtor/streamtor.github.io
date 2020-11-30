@@ -10,6 +10,7 @@ import Home from "./Pages/Home/home";
 import SearchResult from "./Pages/MoviesList/SearchResult";
 import TorrentList from "./Pages/TorrentList/TorrentList";
 import ShowFileList from "./Pages/ShowFileList/ShowFileList";
+import PlayerScreen from "./Pages/PlayerScreen/PlayerScreen";
 
 function App() {
   return (
@@ -39,6 +40,9 @@ function App() {
           </Route>
           <Route path="/file">
             <ShowFileList />
+          </Route>
+          <Route path="/play">
+            <PlayerScreen />
           </Route>
         </Switch>
       </HashRouter>

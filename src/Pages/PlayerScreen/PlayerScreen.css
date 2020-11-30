@@ -1,0 +1,23 @@
+.video-player-wrapper {
+  position: relative;
+  margin-top: 5%;
+  margin-left: 2%;
+  margin-right: 2%;
+  padding: 20px;
+  padding-bottom: 20px;
+}
+.player-screen-back-icon {
+  position: absolute;
+  top: 75px;
+  left: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  background-color: #3c3f54;
+  border-radius: 10px;
+  width: 100px;
+  height: 30px;
+  font-family: "Montserrat", sans-serif;
+}

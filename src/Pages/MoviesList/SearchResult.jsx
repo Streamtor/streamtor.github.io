@@ -4,6 +4,9 @@ import { useSelector } from "react-redux";
 import Icon from "@iconify/react";
 import pathBack from "@iconify/icons-gg/arrow-left";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setTorResults } from "../../redux/actions/torResultAction";
+import { setSearchQuery } from "../../redux/actions/searchQueryActions";
 import axios from "axios";
 import Lottie from "react-lottie";
 import animationData from "../../assets/lotties/33183-ufo-camping-scene.json";
@@ -16,6 +19,7 @@ export default function SearchResult() {
   const history = useHistory();
   const SearchResults = useSelector((state) => state.searchResult);
   const SearchQuery = useSelector((state) => state.searchQuery);
+  const dispatch = useDispatch();
 
   const [isSearching, setIsSearching] = useState(false);
 
@@ -38,6 +42,9 @@ export default function SearchResult() {
     axios.get(`http://localhost:15000/search/${titleQuery}`).then((res) => {
       setIsSearching(false);
       console.log("Tor Search Result : ", res.data);
+      dispatch(setSearchQuery(titleQuery));
+      dispatch(setTorResults(res.data));
+      history.push("/torrent");
     });
   };
   return (

@@ -1,0 +1,67 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap");
+
+.torList-page-wrapper {
+  position: relative;
+  margin-top: 9%;
+  margin-left: 5%;
+  display: flex;
+  flex-direction: column;
+}
+
+.tor-grid-container {
+  display: grid;
+  padding-right: 30px;
+}
+
+.tor-grid-container--fill {
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+}
+
+.tor-grid-container--fit {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.tor-grid-element {
+  height: 250px;
+  width: 260px;
+  border-radius: 10px;
+  background-color: #894fc6;
+  padding: 20px;
+  margin: 5px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.tor-grid-element-title {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.tor-grid-element:nth-child(even) {
+  border-radius: 10px;
+  background-color: #c65d4f;
+  padding: 20px;
+  margin: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.tor-grid-element:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.tor-search-query-title {
+  text-align: justify;
+}
+.search-title {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 40px;
+}
+
+.tor-search-subtitle {
+  font-family: "Montserrat", sans-serif;
+  font-size: 18px;
+  color: #5a5d6f;
+}

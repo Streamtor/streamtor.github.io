@@ -22,6 +22,7 @@
 }
 
 .tor-grid-element {
+  position: relative;
   height: 250px;
   width: 260px;
   border-radius: 10px;
@@ -30,25 +31,32 @@
   margin: 5px;
   margin-bottom: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-in-out;
 }
 
-.tor-grid-element-title {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
+.tor-grid-element:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  transform: scale(1.1);
 }
 
 .tor-grid-element:nth-child(even) {
+  position: relative;
   border-radius: 10px;
   background-color: #c65d4f;
   padding: 20px;
   margin: 5px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-in-out;
 }
 
-.tor-grid-element:hover {
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+.tor-grid-element-title {
+  font-family: "Montserrat", sans-serif;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  text-align: left;
+  font-weight: 500;
 }
 
 .tor-search-query-title {
@@ -56,7 +64,7 @@
 }
 .search-title {
   font-family: "Montserrat", sans-serif;
-  font-weight: 400;
+  font-weight: 300;
   font-size: 40px;
 }
 
@@ -64,4 +72,42 @@
   font-family: "Montserrat", sans-serif;
   font-size: 18px;
   color: #5a5d6f;
+}
+
+.alignleft {
+  float: left;
+}
+.alignright {
+  float: right;
+}
+
+.seeders-leechers-text {
+  font-size: 15px;
+  font-family: "Montserrat", sans-serif;
+  color: #b9b9b9;
+}
+
+.seeders-leechers-value {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+  font-family: "Montserrat", sans-serif;
+  color: #ffffff;
+}
+
+.movie-size-value {
+  position: absolute;
+  bottom: 20px;
+  left: 10px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  font-family: "Montserrat", sans-serif;
+  color: #ffffff;
+}
+
+.movie-select-icon {
+  position: absolute;
+  bottom: 5px;
+  right: 10px;
 }

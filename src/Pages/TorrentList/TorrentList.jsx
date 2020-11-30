@@ -5,7 +5,19 @@ import { useSelector } from "react-redux";
 import animationData from "../../assets/lotties/33183-ufo-camping-scene.json";
 import Icon from "@iconify/react";
 import pathBack from "@iconify/icons-gg/arrow-left";
+import playCircleFilled from "@iconify/icons-ant-design/play-circle-filled";
 import { useHistory } from "react-router-dom";
+
+function formatBytes(a, b = 2) {
+  if (0 === a) return "0 Bytes";
+  const c = 0 > b ? 0 : b,
+    d = Math.floor(Math.log(a) / Math.log(1024));
+  return (
+    parseFloat((a / Math.pow(1024, d)).toFixed(c)) +
+    " " +
+    ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"][d]
+  );
+}
 
 export default function TorrentList() {
   const history = useHistory();
@@ -57,9 +69,29 @@ export default function TorrentList() {
             {torResults.map((result, index) => (
               <div key={index} className="tor-grid-element">
                 <span className="tor-grid-element-title">{result.name}</span>
-                <p>{result.leechers}</p>
-                <p>{result.seeders}</p>
-                <p>{result.size}</p>
+                <div className="alignleft">
+                  <label className="seeders-leechers-text">Seeders</label>
+                  <br />
+                  <label className="seeders-leechers-value">
+                    {result.seeders}
+                  </label>
+                  <label className="movie-size-value">
+                    {formatBytes(result.size)}
+                  </label>
+                </div>
+                <div className="alignright">
+                  <label className="seeders-leechers-text">Leechers</label>
+                  <br />
+                  <label className="seeders-leechers-value">
+                    {result.leechers}
+                  </label>
+                  <div className="movie-select-icon">
+                    <Icon
+                      icon={playCircleFilled}
+                      style={{ color: "#fff", width: "50px", height: "50px" }}
+                    />
+                  </div>
+                </div>
               </div>
             ))}
           </div>

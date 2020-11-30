@@ -6,6 +6,7 @@
   "author": "Jay Vishaal J",
   "homepage": "./",
   "dependencies": {
+    "@iconify/icons-ant-design": "^1.1.0",
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.2",
     "@testing-library/user-event": "^12.2.2",

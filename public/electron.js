@@ -1,10 +1,12 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
 const isDev = require("electron-is-dev");
 const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const TPBAPI = require("thepiratebayapi");
 let WebTorrent = require("webtorrent");
+const { autoUpdater } = require("electron-updater");
+const { NEW_UPATE_FOUND, PING_GORUND } = require("../src/utils/constants");
 
 let mainWindow;
 const server = express();
@@ -18,25 +20,87 @@ function createWindow() {
     show: false,
     frame: false,
     transparent: true,
+    resizable: false,
     webPreferences: {
       nodeIntegration: true,
+      enableRemoteModule: true,
     },
   });
+
   server.listen(15000, () => {
     console.log("listening on *:15000");
   });
+
   const startURL = isDev
     ? "http://localhost:3000"
     : `file://${path.join(__dirname, "../build/index.html")}`;
 
   mainWindow.loadURL(startURL);
-
   mainWindow.once("ready-to-show", () => mainWindow.show());
   mainWindow.on("closed", () => {
     mainWindow = null;
   });
+  autoUpdater.checkForUpdates();
 }
 app.on("ready", createWindow);
+// Quit when all windows are closed.
+app.on("window-all-closed", function () {
+  // On OS X it is common for applications and their menu bar
+  // to stay active until the user quits explicitly with Cmd + Q
+  if (process.platform !== "darwin") {
+    app.quit();
+  }
+});
+
+app.on("activate", function () {
+  // On OS X it's common to re-create a window in the app when the
+  // dock icon is clicked and there are no other windows open.
+  if (mainWindow === null) {
+    createWindow();
+  }
+});
+
+ipcMain.on(PING_GORUND, (event, arg) => {
+  console.log(arg); // prints "ping"
+  event.returnValue = "pong";
+});
+
+/**
+ *  Auto updates
+ */
+const sendStatusToWindow = (text) => {
+  if (mainWindow) {
+    mainWindow.webContents.send("message", text);
+  }
+};
+
+autoUpdater.on("checking-for-update", () => {
+  sendStatusToWindow("Checking for update...");
+});
+autoUpdater.on("update-available", (info) => {
+  sendStatusToWindow("Update available.");
+});
+autoUpdater.on("update-not-available", (info) => {
+  sendStatusToWindow("Update not available.");
+});
+autoUpdater.on("error", (err) => {
+  sendStatusToWindow(`Error in auto-updater: ${err.toString()}`);
+});
+autoUpdater.on("download-progress", (progressObj) => {
+  sendStatusToWindow(
+    `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}% (${progressObj.transferred} + '/' + ${progressObj.total} + )`
+  );
+});
+autoUpdater.on("update-downloaded", (info) => {
+  sendStatusToWindow("Update downloaded; will install now");
+});
+
+autoUpdater.on("update-downloaded", (info) => {
+  // Wait 5 seconds, then quit and install
+  // In your application, you don't need to wait 500 ms.
+  // You could call autoUpdater.quitAndInstall(); immediately
+  autoUpdater.quitAndInstall();
+});
 
 /**
  * Express Server Code
@@ -166,7 +230,8 @@ server.get("/stream/:torrentId/:file_name", async function (req, res, next) {
 });
 
 server.get("/state", (req, res) => {
-  res.json(peerData);
+  console.log("MAX LISTNERES : ", ipcMain.listenerCount(NEW_UPATE_FOUND));
+  return res.send(ipcMain.listenerCount(NEW_UPATE_FOUND));
 });
 
 server.get("/remove/:torrentId", (req, res) => {

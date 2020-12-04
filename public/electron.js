@@ -6,12 +6,17 @@ const cors = require("cors");
 const TPBAPI = require("thepiratebayapi");
 let WebTorrent = require("webtorrent");
 const { autoUpdater } = require("electron-updater");
-const { NEW_UPATE_FOUND, PING_GORUND } = require("../src/utils/constants");
+const log = require("electron-log");
+log.variables.label = "dev";
+log.transports.console.format = "[{h}:{i}:{s}.{ms}] [{label}] {text}";
 
 let mainWindow;
 const server = express();
 server.use(cors());
 let client = new WebTorrent();
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = "info";
+log.info("App starting...");
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -20,7 +25,6 @@ function createWindow() {
     show: false,
     frame: false,
     transparent: true,
-    resizable: false,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
@@ -29,6 +33,7 @@ function createWindow() {
 
   server.listen(15000, () => {
     console.log("listening on *:15000");
+    log.info("listening on *:15000");
   });
 
   const startURL = isDev
@@ -40,38 +45,15 @@ function createWindow() {
   mainWindow.on("closed", () => {
     mainWindow = null;
   });
-  autoUpdater.checkForUpdates();
+  autoUpdater.checkForUpdatesAndNotify();
 }
-app.on("ready", createWindow);
-// Quit when all windows are closed.
-app.on("window-all-closed", function () {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
-});
-
-app.on("activate", function () {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) {
-    createWindow();
-  }
-});
-
-ipcMain.on(PING_GORUND, (event, arg) => {
-  console.log(arg); // prints "ping"
-  event.returnValue = "pong";
-});
 
 /**
  *  Auto updates
  */
 const sendStatusToWindow = (text) => {
-  if (mainWindow) {
-    mainWindow.webContents.send("message", text);
-  }
+  console.log(text);
+  log.info(text);
 };
 
 autoUpdater.on("checking-for-update", () => {
@@ -100,6 +82,56 @@ autoUpdater.on("update-downloaded", (info) => {
   // In your application, you don't need to wait 500 ms.
   // You could call autoUpdater.quitAndInstall(); immediately
   autoUpdater.quitAndInstall();
+});
+
+app.on("ready", createWindow);
+// Quit when all windows are closed.
+app.on("window-all-closed", function () {
+  // On OS X it is common for applications and their menu bar
+  // to stay active until the user quits explicitly with Cmd + Q
+  if (process.platform !== "darwin") {
+    app.quit();
+  }
+});
+
+app.on("activate", function () {
+  // On OS X it's common to re-create a window in the app when the
+  // dock icon is clicked and there are no other windows open.
+  if (mainWindow === null) {
+    createWindow();
+  }
+});
+
+/**
+ *  Log ISSUE RECORDING
+ */
+
+log.catchErrors({
+  showDialog: false,
+  onError(error, versions, submitIssue) {
+    electron.dialog
+      .showMessageBox({
+        title: "An error occurred",
+        message: error.message,
+        detail: error.stack,
+        type: "error",
+        buttons: ["Ignore", "Report", "Exit"],
+      })
+      .then((result) => {
+        if (result.response === 1) {
+          submitIssue("https://github.com/Streamtor/streamtor/issues/new", {
+            title: `Error report for ${versions.app}`,
+            body:
+              "Error:\n```" + error.stack + "\n```\n" + `OS: ${versions.os}`,
+          });
+          return;
+        }
+
+        if (result.response === 2) {
+          electron.app.quit();
+        }
+      });
+  },
 });
 
 /**
@@ -227,11 +259,6 @@ server.get("/stream/:torrentId/:file_name", async function (req, res, next) {
       return next(err);
     });
   }
-});
-
-server.get("/state", (req, res) => {
-  console.log("MAX LISTNERES : ", ipcMain.listenerCount(NEW_UPATE_FOUND));
-  return res.send(ipcMain.listenerCount(NEW_UPATE_FOUND));
 });
 
 server.get("/remove/:torrentId", (req, res) => {

@@ -13,7 +13,7 @@ import TorrentList from "./Pages/TorrentList/TorrentList";
 import ShowFileList from "./Pages/ShowFileList/ShowFileList";
 import PlayerScreen from "./Pages/PlayerScreen/PlayerScreen";
 import TitleBar from "frameless-titlebar";
-import { remote, ipcRenderer } from "electron";
+import { remote } from "electron";
 
 const { NEW_UPATE_FOUND, PING_GORUND } = require("./utils/constants");
 function App() {
@@ -21,15 +21,6 @@ function App() {
   const currentWindow = remote.getCurrentWindow();
   const [maximized, setMaximized] = useState(currentWindow.isMaximized());
   const [updateFound, setUpdateFound] = useState(false);
-
-  useEffect(() => {
-    console.log(ipcRenderer.sendSync(PING_GORUND, "ping")); // prints "pong"
-    console.log("IPC OPEN");
-    ipcRenderer.on("message", (event, arg) => {
-      console.log("GOT : ", arg);
-    });
-    return () => {};
-  }, [ipcRenderer]);
 
   const handleUpdateViewer = (event, arg) => {
     console.log("NEW UPDATE FOUND : ", arg, " EVENT : ", event);

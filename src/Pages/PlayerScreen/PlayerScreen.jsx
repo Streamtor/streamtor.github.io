@@ -22,7 +22,7 @@ export default function PlayerScreen() {
       </span>
       <br />
       <div className="video-player-wrapper">
-        <Player videoId="video-1">
+        <Player videoId="video-1" className="player">
           <source src={playerSource} />
         </Player>
       </div>

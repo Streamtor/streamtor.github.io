@@ -39,13 +39,20 @@ export default function SearchResult() {
     const titleQuery = SearchResults[index].title
       ? SearchResults[index].title
       : SearchResults[index].original_name;
-    axios.get(`http://localhost:15000/search/${titleQuery}`).then((res) => {
-      setIsSearching(false);
-      console.log("Tor Search Result : ", res.data);
-      dispatch(setSearchQuery(titleQuery));
-      dispatch(setTorResults(res.data));
-      history.push("/torrent");
-    });
+    axios
+      .get(`http://localhost:15000/search/${titleQuery}`)
+      .then((res) => {
+        setIsSearching(false);
+        console.log("Tor Search Result : ", res.data);
+        dispatch(setSearchQuery(titleQuery));
+        dispatch(setTorResults(res.data));
+        history.push("/torrent");
+      })
+      .catch((err) => {
+        window.alert("Sorry Scrapping Websites Might Be Down");
+        console.log(err);
+        history.goBack();
+      });
   };
   return (
     <div className="search-page-wrapper">

@@ -1,15 +1,22 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
 const isDev = require("electron-is-dev");
 const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const TPBAPI = require("thepiratebayapi");
 let WebTorrent = require("webtorrent");
+const { autoUpdater } = require("electron-updater");
+const log = require("electron-log");
+log.variables.label = "dev";
+log.transports.console.format = "[{h}:{i}:{s}.{ms}] [{label}] {text}";
 
 let mainWindow;
 const server = express();
 server.use(cors());
 let client = new WebTorrent();
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = "info";
+log.info("App starting...");
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -20,23 +27,112 @@ function createWindow() {
     transparent: true,
     webPreferences: {
       nodeIntegration: true,
+      enableRemoteModule: true,
     },
   });
+
   server.listen(15000, () => {
     console.log("listening on *:15000");
+    log.info("listening on *:15000");
   });
+
   const startURL = isDev
     ? "http://localhost:3000"
     : `file://${path.join(__dirname, "../build/index.html")}`;
 
   mainWindow.loadURL(startURL);
-
   mainWindow.once("ready-to-show", () => mainWindow.show());
   mainWindow.on("closed", () => {
     mainWindow = null;
   });
+  autoUpdater.checkForUpdatesAndNotify();
 }
+
+/**
+ *  Auto updates
+ */
+const sendStatusToWindow = (text) => {
+  console.log(text);
+  log.info(text);
+};
+
+autoUpdater.on("checking-for-update", () => {
+  sendStatusToWindow("Checking for update...");
+});
+autoUpdater.on("update-available", (info) => {
+  sendStatusToWindow("Update available.");
+});
+autoUpdater.on("update-not-available", (info) => {
+  sendStatusToWindow("Update not available.");
+});
+autoUpdater.on("error", (err) => {
+  sendStatusToWindow(`Error in auto-updater: ${err.toString()}`);
+});
+autoUpdater.on("download-progress", (progressObj) => {
+  sendStatusToWindow(
+    `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}% (${progressObj.transferred} + '/' + ${progressObj.total} + )`
+  );
+});
+autoUpdater.on("update-downloaded", (info) => {
+  sendStatusToWindow("Update downloaded; will install now");
+});
+
+autoUpdater.on("update-downloaded", (info) => {
+  // Wait 5 seconds, then quit and install
+  // In your application, you don't need to wait 500 ms.
+  // You could call autoUpdater.quitAndInstall(); immediately
+  autoUpdater.quitAndInstall();
+});
+
 app.on("ready", createWindow);
+// Quit when all windows are closed.
+app.on("window-all-closed", function () {
+  // On OS X it is common for applications and their menu bar
+  // to stay active until the user quits explicitly with Cmd + Q
+  if (process.platform !== "darwin") {
+    app.quit();
+  }
+});
+
+app.on("activate", function () {
+  // On OS X it's common to re-create a window in the app when the
+  // dock icon is clicked and there are no other windows open.
+  if (mainWindow === null) {
+    createWindow();
+  }
+});
+
+/**
+ *  Log ISSUE RECORDING
+ */
+
+log.catchErrors({
+  showDialog: false,
+  onError(error, versions, submitIssue) {
+    electron.dialog
+      .showMessageBox({
+        title: "An error occurred",
+        message: error.message,
+        detail: error.stack,
+        type: "error",
+        buttons: ["Ignore", "Report", "Exit"],
+      })
+      .then((result) => {
+        if (result.response === 1) {
+          submitIssue("https://github.com/Streamtor/streamtor/issues/new", {
+            title: `Error report for ${versions.app}`,
+            body:
+              "Error:\n```" + error.stack + "\n```\n" + `OS: ${versions.os}`,
+          });
+          return;
+        }
+
+        if (result.response === 2) {
+          electron.app.quit();
+        }
+      });
+  },
+});
 
 /**
  * Express Server Code
@@ -163,10 +259,6 @@ server.get("/stream/:torrentId/:file_name", async function (req, res, next) {
       return next(err);
     });
   }
-});
-
-server.get("/state", (req, res) => {
-  res.json(peerData);
 });
 
 server.get("/remove/:torrentId", (req, res) => {

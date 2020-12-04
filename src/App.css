@@ -30,6 +30,7 @@
   height: 20vh;
   top: 18%;
   left: 0%;
+  z-index: 0;
 }
 
 .dots-bottom {
@@ -37,18 +38,21 @@
   bottom: 0%;
   width: 20vw;
   left: 20%;
+  z-index: 0;
 }
 .dots-right {
   position: absolute;
   right: 0%;
   height: 10vh;
   transform: rotate(-1deg);
+  z-index: 0;
 }
 .dots-top {
   position: absolute;
   top: 0%;
   height: 10vh;
   right: 35%;
+  z-index: 0;
 }
 .app-menu-icon-wrapper {
   transition: all 1s ease-in-out;

@@ -39,11 +39,12 @@
   },
   "scripts": {
     "start": "rescripts start",
-    "build": "react-scripts build",
+    "build": "rescripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "ebuild": "npm run build && node_modules/.bin/build",
     "dev": "concurrently \"npm start\" \"wait-on http://localhost:3000 && electron .\"",
+    "pretest": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
     "postinstall": "electron-builder install-app-deps",
@@ -53,12 +54,26 @@
     "appId": "com.jvj.streamtor",
     "productName": "Streamtor",
     "copyright": "Copyright © year Jay Vishaal J",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
     "directories": {
       "buildResources": "public"
     },
     "win": {
-      "publish": [
-        "github"
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ],
+          "signingHashAlgorithms": [
+            "sha1",
+            "sha256"
+          ]
+        }
       ]
     },
     "publish": [

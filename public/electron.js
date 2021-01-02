@@ -36,7 +36,8 @@ function createWindow() {
     log.info("listening on *:15000");
   });
 
-  const startURL = `file://${path.join(__dirname, "../build/index.html")}`;
+  // const startURL = `file://${path.join(__dirname, "../build/index.html")}`;
+  const startURL = "http://localhost:3000";
 
   mainWindow.loadURL(startURL);
   mainWindow.once("ready-to-show", () => mainWindow.show());

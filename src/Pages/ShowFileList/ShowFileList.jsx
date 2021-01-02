@@ -31,7 +31,7 @@ export default function ShowFileList() {
       SearchQuery.info_hash +
       "/" +
       fileDetails[index].name;
-    dispatch(setStreamURL(streamURL));
+    dispatch(setStreamURL({ streamURL, streamName: fileDetails[index].name }));
     history.push("/play");
   };
 

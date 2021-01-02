@@ -45,12 +45,18 @@ export default function TorrentList() {
     let url = "http://localhost:15000/add/" + torResults[index].info_hash;
     dispatch(setSelectedTor(torResults[index]));
     setIsSearching(true);
-    Axios.get(url).then((res) => {
-      console.log(res.data);
-      dispatch(setSelectedTorDetails(res.data));
-      setIsSearching(false);
-      history.push("/file");
-    });
+    Axios.get(url)
+      .then((res) => {
+        console.log(res.data);
+        dispatch(setSelectedTorDetails(res.data));
+        setIsSearching(false);
+        history.push("/file");
+      })
+      .catch((err) => {
+        window.alert("Sorry Torrent File Selected Seem to Be Down");
+        console.log(err);
+        history.goBack();
+      });
   };
 
   return (

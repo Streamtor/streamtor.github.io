@@ -42,6 +42,12 @@ export default function SearchResult() {
     axios
       .get(`http://localhost:15000/search/${titleQuery}`)
       .then((res) => {
+        if (res.status === 502) {
+          console.log("RESP ERROR");
+          window.alert("Sorry Scrapping Websites Might Be Down");
+          console.log(res);
+          history.goBack();
+        }
         setIsSearching(false);
         console.log("Tor Search Result : ", res.data);
         dispatch(setSearchQuery(titleQuery));
